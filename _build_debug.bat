@@ -1,6 +1,6 @@
 @echo off
 rem QSTweaks v3.0：清理临时文件 + 编译
-cd /d C:\Users\Firefly\Desktop\daxue\work\QSTweaks
+cd /d "%~dp0"
 
 del /f /q "_cleanup.bat" "_cleanup2.bat" "_keep_notes.txt" "_adb_step1.txt" "_extract_problems.bat" "_rebuild.bat" 2>nul
 

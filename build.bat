@@ -21,7 +21,7 @@ if not exist "local.properties" (
   if defined ANDROID_HOME (
     echo sdk.dir=!ANDROID_HOME:\=\\!> local.properties
   ) else (
-    echo [错误] 请先设置 ANDROID_HOME 或手动创建 local.properties，内容: sdk.dir=C:\\Users\\你\\AppData\\Local\\Android\\Sdk
+    echo [错误] 请先设置 ANDROID_HOME 或手动创建 local.properties，内容: sdk.dir=C:\\Users\\<你的用户名>\\AppData\\Local\\Android\\Sdk
     pause & exit /b 1
   )
 )

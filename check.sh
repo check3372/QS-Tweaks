@@ -26,7 +26,6 @@ echo "  done"
 
 echo
 echo "== R.* 资源引用是否都有定义 =="
-grep -rhoE 'R\.(drawable|id|color|string|mipmap)\. [a-z0-9_]+' "$JAVA" >/dev/null 2>&1
 grep -rhoE 'R\.(drawable|id|color|string|mipmap)[.][a-z0-9_]+' "$JAVA" | sort -u | while read -r r; do
   t=${r%%.*}; t=${t#R.}
   n=${r##*.}
@@ -47,11 +46,10 @@ grep -oE 'android:name="\.[A-Za-z0-9_]+"' "$MAN" | sed -E 's/.*"\.([A-Za-z0-9_]+
 done
 
 echo
-echo "== 已删除类是否仍被引用 =="
+echo "== 已废弃的旧概念是否仍被引用 =="
 for sym in XposedActive TileFactory ReflectiveTile; do
   refs=$(grep -rl "\b$sym\b" "$JAVA" | grep -v "/$sym.java" | wc -l)
   [ "$refs" -gt 0 ] && { echo "  BROKEN: $sym 仍被引用"; FAIL=1; }
 done
-echo "  done"
-
+[ $FAIL -eq 0 ] && echo "  OK"
 exit $FAIL
