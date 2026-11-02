@@ -1,0 +1,133 @@
+<?xml version="1.0" encoding="utf-8"?>
+<manifest xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <uses-permission android:name="android.permission.WRITE_SECURE_SETTINGS"/>
+    <!-- 普通写 settings（应用详情里能看到的那一项），WRITE_SECURE_SETTINGS 是签名级权限不列出来 -->
+    <uses-permission android:name="android.permission.WRITE_SETTINGS"/>
+    <uses-permission android:name="android.permission.MODIFY_PHONE_STATE"/>
+    <uses-permission android:name="android.permission.READ_PHONE_STATE"/>
+    <uses-permission android:name="android.permission.FOREGROUND_SERVICE"/>
+    <uses-permission android:name="android.permission.FOREGROUND_SERVICE_SPECIAL_USE"/>
+    <!-- CommandService 是用前台服务跑一次命令的，必须有这个权限才能弹（一闪而过的）通知 -->
+    <uses-permission android:name="android.permission.POST_NOTIFICATIONS"/>
+    <uses-permission android:name="android.permission.RECEIVE_BOOT_COMPLETED"/>
+
+    <application
+        android:allowBackup="false"
+        android:icon="@mipmap/ic_launcher"
+        android:label="@string/app_name"
+        android:theme="@android:style/Theme.DeviceDefault.DayNight"
+        android:supportsRtl="true">
+
+        <!-- ========== LSPosed 模块：入口见 assets/xposed_init ========== -->
+        <meta-data android:name="xposedmodule" android:value="true"/>
+        <meta-data android:name="xposeddescription"
+            android:value="控制中心：5G 开关、息屏时间两档磁贴"/>
+        <meta-data android:name="xposedminversion" android:value="82"/>
+        <meta-data android:name="xposedscope" android:resource="@array/xposed_scope"/>
+
+        <activity
+            android:name=".MainActivity"
+            android:exported="true"
+            android:excludeFromRecents="true"
+            android:label="@string/app_name">
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN"/>
+                <category android:name="android.intent.category.LAUNCHER"/>
+            </intent-filter>
+        </activity>
+
+        <activity
+            android:name=".DebugActivity"
+            android:exported="false"
+            android:label="诊断"/>
+
+        <!-- ========== 两个 QS 磁贴 ========== -->
+        <service
+            android:name=".FiveGTileService"
+            android:exported="true"
+            android:icon="@drawable/ic_tile_5g"
+            android:label="5G 开关"
+            android:permission="android.permission.BIND_QUICK_SETTINGS_TILE">
+            <intent-filter>
+                <action android:name="android.service.quicksettings.action.QS_TILE"/>
+            </intent-filter>
+        </service>
+
+        <service
+            android:name=".ScreenTileService"
+            android:exported="true"
+            android:icon="@drawable/ic_tile_screen"
+            android:label="息屏时间"
+            android:permission="android.permission.BIND_QUICK_SETTINGS_TILE">
+            <intent-filter>
+                <action android:name="android.service.quicksettings.action.QS_TILE"/>
+            </intent-filter>
+        </service>
+
+        <!-- ========== 执行器 ========== -->
+        <service
+            android:name=".CommandService"
+            android:exported="false"
+            android:foregroundServiceType="specialUse">
+            <property android:name="android.app.PROPERTY_SPECIAL_USE_FGS_SUBTYPE"
+                android:value="执行一次 QS 磁贴命令"/>
+        </service>
+
+        <!-- 息屏守护：无通知的后台服务（靠无障碍保活维持进程） -->
+        <service
+            android:name=".ScreenGuardService"
+            android:exported="false" />
+
+        <!-- 无障碍保活（Scene 同款）：只用来让进程活下来 -->
+        <service
+            android:name=".GuardAccessibilityService"
+            android:exported="true"
+            android:label="@string/app_name"
+            android:permission="android.permission.BIND_ACCESSIBILITY_SERVICE">
+            <intent-filter>
+                <action android:name="android.accessibilityservice.AccessibilityService"/>
+            </intent-filter>
+            <meta-data
+                android:name="android.accessibilityservice"
+                android:resource="@xml/guard_accessibility"/>
+        </service>
+
+        <!-- 模块(SystemUI) → 主进程：执行命令 -->
+        <receiver android:name=".TileCommandReceiver" android:exported="true">
+            <intent-filter>
+                <action android:name="com.firefly.qstweaks.RUN"/>
+            </intent-filter>
+        </receiver>
+
+        <!-- 模块(SystemUI) → 主进程：心跳（"模块已激活"） -->
+        <receiver android:name=".PingReceiver" android:exported="true">
+            <intent-filter>
+                <action android:name="com.firefly.qstweaks.MODULE_PING"/>
+            </intent-filter>
+        </receiver>
+
+        <!-- 仅本 App 内部使用 -->
+        <receiver android:name=".ActionReceiver" android:exported="false">
+            <intent-filter>
+                <action android:name="com.firefly.qstweaks.ACTION_RUN"/>
+            </intent-filter>
+        </receiver>
+
+        <receiver android:name=".BootReceiver" android:exported="true">
+            <intent-filter>
+                <action android:name="android.intent.action.BOOT_COMPLETED"/>
+            </intent-filter>
+        </receiver>
+
+        <!-- 亮屏时也补一次息屏值（守护服务万一被系统杀掉） -->
+        <receiver android:name=".ScreenChangedReceiver" android:exported="false">
+            <intent-filter>
+                <action android:name="android.intent.action.SCREEN_ON"/>
+                <action android:name="android.intent.action.USER_PRESENT"/>
+            </intent-filter>
+        </receiver>
+
+    </application>
+
+</manifest>

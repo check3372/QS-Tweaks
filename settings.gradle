@@ -1,0 +1,20 @@
+pluginManagement {
+    repositories {
+        google()
+        mavenCentral()
+        gradlePluginPortal()
+    }
+}
+
+dependencyResolutionManagement {
+    repositoriesMode.set(RepositoriesMode.PREFER_SETTINGS)
+    repositories {
+        google()
+        mavenCentral()
+        // Xposed API（de.robv.android.xposed:api:82）在官方仓库
+        maven { url = uri("https://api.xposed.info/") }
+    }
+}
+
+rootProject.name = "QSTweaks"
+include(":app")

@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="app_name">QS Tweaks</string>
+    <string name="module_active">模块已启用</string>
+    <string name="module_inactive">模块未激活</string>
+    <string name="a11y_desc">用于在后台保持息屏时间的设置不被系统重置。本服务不读取屏幕内容、不监听任何应用。</string>
+
+    <!-- 用 id 资源而不是硬编码 int，防止和其他资源冲突 -->
+    <item name="tag_qstweaks_5g_row" type="id"/>
+    <item name="tag_qstweaks_screen_row" type="id"/>
+</resources>

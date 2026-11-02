@@ -1,0 +1,6 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- Android 26 以下的 mipmap fallback，直接复用矢量图标 -->
+<layer-list xmlns:android="http://schemas.android.com/apk/res/android">
+    <item android:drawable="@color/ic_bg"/>
+    <item android:drawable="@drawable/ic_tile_5g"/>
+</layer-list>

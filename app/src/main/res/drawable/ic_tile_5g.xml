@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- 磁贴图标：5G 信号格（Material Design 标准图形，路径数据是公开的、经过验证的）
+     表示"第五代移动通信"，比手绘字母可靠。
+     QS 磁贴图标由系统着色，这里用白色。 -->
+<vector xmlns:android="http://schemas.android.com/apk/res/android"
+    android:width="24dp"
+    android:height="24dp"
+    android:viewportWidth="24"
+    android:viewportHeight="24">
+
+    <!-- 四根逐渐升高的信号柱 -->
+    <path android:fillColor="#FFFFFFFF"
+        android:pathData="M2,20h3v-4H2v4zM7,20h3V11H7v9zM12,20h3V7h-3v13zM17,20h3V3h-3v17z" />
+</vector>

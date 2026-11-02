@@ -1,0 +1,41 @@
+plugins {
+    id 'com.android.application' version '9.0.0'
+}
+
+android {
+    namespace = 'com.firefly.qstweaks'
+    // 本机 SDK 只装了 android-37.0，就用它当编译目标（要求 AGP 9.x）
+    compileSdk = 37
+
+    defaultConfig {
+        applicationId = "com.firefly.qstweaks"
+        minSdk = 30          // Android 11+
+        targetSdk = 35
+        versionCode = 20
+        versionName = "3.0"
+    }
+
+    buildTypes {
+        release {
+            minifyEnabled = false
+            // 用 debug 签名，方便直接 install；需要正式签名就换成自己的 keystore
+            signingConfig = signingConfigs.getByName("debug")
+        }
+    }
+
+    compileOptions {
+        sourceCompatibility JavaVersion.VERSION_17
+        targetCompatibility JavaVersion.VERSION_17
+    }
+
+    lint {
+        abortOnError = false
+        checkReleaseBuilds = false
+    }
+}
+
+dependencies {
+    // Xposed API：编译期需要，打包时不带（运行时由 LSPosed 提供）
+    // 仓库 api.xposed.info 见 settings.gradle
+    compileOnly('de.robv.android.xposed:api:82')
+}

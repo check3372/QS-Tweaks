@@ -1,0 +1,9 @@
+// ================================================================
+//  AGP 9 里 buildscript{} 块已废弃，这里不再需要。
+//  AGP 版本写在 app/build.gradle 的 plugins 块里。
+//  依赖仓库见 settings.gradle。
+// ================================================================
+
+tasks.register('clean', Delete) {
+    delete rootProject.layout.buildDirectory
+}
