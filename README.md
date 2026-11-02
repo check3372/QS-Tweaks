@@ -2,6 +2,10 @@
 
 Android 11+（目标 ColorOS 17）· 需 **Root（Magisk / KernelSU）+ LSPosed**
 
+[![最新版本](https://img.shields.io/github/v/release/check3372/QS-Tweaks)](https://github.com/check3372/QS-Tweaks/releases/latest)
+
+> **[下载最新版](https://github.com/check3372/QS-Tweaks/releases/latest)**
+
 ## 功能
 
 | 磁贴 | 行为 |
@@ -101,3 +105,38 @@ screen 15 秒 java=? su=? readback=? effective=?
 
 `tools/icon_gen.html` —— 想换成文字版图标时，用浏览器打开它，会把 "5G" 用系统字体渲染成 PNG，
 下载后放到 `app/src/main/res/drawable-nodpi/ic_tile_5g.png` 再编译即可。
+
+## 关于本项目的由来
+
+**本项目代码完全由 AI 生成。**
+
+从需求拆解、SystemUI 逆向分析、LSPosed 钩子设计到每一行 Java、每个资源文件，均由 AI 编写，
+人类参与的部分是：提出需求、在真机上测试、反馈现象与日志（包括那四个坑里的 logcat 和截图）、
+以及决定最终方案。
+
+项目在 ColorOS 17 / Android 17 + KernelSU + LSPosed 真机上通过实测，
+但请把它理解为一个"能跑通的实现"，而不是经过长期打磨、代码审查的成熟工程。
+
+## 免责声明
+
+**使用本软件的风险由你自行承担。**
+
+- 本项目需要 **Root 权限**，并会修改系统设置（首选网络类型、息屏超时）。修改系统网络与显示
+  设置存在导致通话异常、无法上网、系统行为异常的可能。
+- 本项目通过 **LSPosed 钩入 SystemUI 进程**。钩子失效、版本不匹配或与其他模块冲突时，
+  可能导致系统界面反复崩溃（SystemUI 崩溃循环）。**请提前准备好救砖手段**：
+  LSPosed 的「音量键紧急停用」功能、Recovery 下删除模块目录、或 ADB 停用模块。
+- 本项目**仅在 ColorOS 17 (Android 17) 一款设备上验证过**。其他机型、其他 ROM、
+  其他 Android 版本**未经测试**，直接安装可能出现不可预期的问题。
+- 本项目由 AI 生成，**不提供任何明示或暗示的担保**，包括但不限于适销性、特定用途适用性
+  和不侵权的担保。作者与贡献者不对任何直接、间接、偶然、特殊或后果性损害负责，
+  包括但不限于数据丢失、设备损坏、运营商合约问题或经济损失。
+- 修改首选网络类型可能影响**运营商网络策略**（如某些套餐对 5G 接入的限制）。
+  请自行确认你的 SIM 卡与套餐允许该操作。
+- 本项目**不收集任何数据**，不联网，不上传任何信息。所有操作均在本机完成。
+- 本项目与 OPPO / ColorOS / Google / LSPosed / Magisk / KernelSU 均无关联，
+  未获其认可或支持。
+- 使用本项目即表示你已阅读、理解并接受上述全部内容。如果你不理解其中任何一条，
+  **请不要安装**。
+
+本项目以 MIT 许可证开源，详见 [LICENSE](LICENSE)。
